@@ -328,48 +328,48 @@ function getBalanceIndex(arr) {
  *        ]
  */
 function getSpiralMatrix(size) {
-  const matrix = [];
-
-  for (let i = 0; i < size; i += 1) {
-    matrix[i] = [];
-  }
+  const spiralMatrix = [];
 
   let row = 0;
   let col = 0;
+  let ceilValue = 1;
   let rowEnd = size - 1;
   let colEnd = size - 1;
-  let value = 1;
+
+  for (let i = 0; i < size; i += 1) {
+    spiralMatrix[i] = [];
+  }
 
   while (col <= colEnd && row <= rowEnd) {
     for (let i = col; i <= colEnd; i += 1) {
-      matrix[row][i] = value;
-      value += 1;
+      spiralMatrix[row][i] = ceilValue;
+      ceilValue += 1;
     }
 
     row += 1;
 
     for (let i = row; i <= rowEnd; i += 1) {
-      matrix[i][colEnd] = value;
-      value += 1;
+      spiralMatrix[i][colEnd] = ceilValue;
+      ceilValue += 1;
     }
 
     colEnd -= 1;
 
     for (let i = colEnd; i >= col; i -= 1) {
-      matrix[rowEnd][i] = value;
-      value += 1;
+      spiralMatrix[rowEnd][i] = ceilValue;
+      ceilValue += 1;
     }
 
     rowEnd -= 1;
 
     for (let i = rowEnd; i >= row; i -= 1) {
-      matrix[i][col] = value;
-      value += 1;
+      spiralMatrix[i][col] = ceilValue;
+      ceilValue += 1;
     }
 
     col += 1;
   }
-  return matrix;
+  return spiralMatrix;
 }
 
 /**
@@ -387,8 +387,22 @@ function getSpiralMatrix(size) {
  *    [7, 8, 9]         [9, 6, 3]
  *  ]                 ]
  */
-function rotateMatrix(/* matrix */) {
-  throw new Error('Not implemented');
+function rotateMatrix(matrix) {
+  const resultMatrix = matrix;
+
+  for (let i = 0; i < matrix.length / 2; i += 1) {
+    for (let j = i; j < matrix.length - i - 1; j += 1) {
+      const temp = resultMatrix[i][j];
+      resultMatrix[i][j] = resultMatrix[matrix.length - j - 1][i];
+      resultMatrix[matrix.length - j - 1][i] =
+        resultMatrix[matrix.length - i - 1][matrix.length - j - 1];
+      resultMatrix[matrix.length - i - 1][matrix.length - j - 1] =
+        resultMatrix[j][matrix.length - i - 1];
+      resultMatrix[j][matrix.length - i - 1] = temp;
+    }
+  }
+
+  return resultMatrix;
 }
 
 /**
